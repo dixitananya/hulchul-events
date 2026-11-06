@@ -2,8 +2,8 @@
 
 A modern, fully responsive website where users can explore upcoming events, search and filter them, view details with a live countdown, and register through a validated form. Built for the **K Explore – Web Designing** task using plain **HTML5, CSS3 and JavaScript** (no frameworks, no build step).
 
-🔗 **Live site:** _add your Netlify / Vercel / GitHub Pages link here_
-📁 **Repository:** _add your GitHub link here_
+🔗 **Live site:** https://creative-kelpie-e75027.netlify.app
+📁 **Repository:** https://github.com/dixitananya/hulchul-events
 
 ## Features
 

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Hulchul – discover, explore and register for upcoming events." />
+  <title>Hulchul – Discover & Register for Events</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ===== Header ===== -->
+  <header class="site-header" id="top">
+    <nav class="nav container" aria-label="Main navigation">
+      <a href="#top" class="logo"><span class="logo-mark">H</span>ulchul</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#events">Events</a></li>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#my-registrations">My Registrations <span class="badge" id="regCount">0</span></a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="container hero-inner">
+        <p class="eyebrow">Hackathons · Concerts · Workshops · Meetups</p>
+        <h1>Find the events that<br /><span class="gradient-text">make your calendar exciting</span></h1>
+        <p class="hero-sub">Browse upcoming events, see every detail, and grab your spot in under a minute.</p>
+        <div class="hero-cta">
+          <a href="#events" class="btn btn-primary">Explore Events</a>
+          <a href="#how" class="btn btn-ghost">How it works</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong id="statEvents">0</strong><span>Upcoming events</span></div>
+          <div><strong id="statSeats">0</strong><span>Seats open</span></div>
+          <div><strong id="statNext">–</strong><span>Next event starts</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Featured ===== -->
+    <section class="section container" aria-labelledby="featuredTitle">
+      <div class="section-head">
+        <h2 id="featuredTitle">⭐ Featured Events</h2>
+        <p>Hand-picked events you shouldn't miss.</p>
+      </div>
+      <div class="grid" id="featuredGrid"></div>
+    </section>
+
+    <!-- ===== All events ===== -->
+    <section class="section container" id="events" aria-labelledby="eventsTitle">
+      <div class="section-head">
+        <h2 id="eventsTitle">Upcoming Events</h2>
+        <p>Search by name or venue, or filter by category.</p>
+      </div>
+
+      <div class="toolbar">
+        <label class="search" for="searchInput">
+          <span aria-hidden="true">🔍</span>
+          <input type="search" id="searchInput" placeholder="Search events, venues, keywords…" autocomplete="off" />
+        </label>
+        <select id="sortSelect" aria-label="Sort events">
+          <option value="date">Sort: Soonest first</option>
+          <option value="name">Sort: A → Z</option>
+          <option value="price">Sort: Price (low → high)</option>
+        </select>
+      </div>
+      <div class="chips" id="chips" role="tablist" aria-label="Event categories"></div>
+
+      <p class="result-count" id="resultCount" aria-live="polite"></p>
+      <div class="grid" id="eventsGrid"></div>
+      <div class="empty" id="emptyState" hidden>
+        <div class="empty-emoji">🕵️</div>
+        <h3>No events found</h3>
+        <p>Try a different keyword or pick another category.</p>
+        <button class="btn btn-ghost" id="resetFilters">Reset filters</button>
+      </div>
+    </section>
+
+    <!-- ===== How it works ===== -->
+    <section class="section container" id="how">
+      <div class="section-head center">
+        <h2>How it works</h2>
+        <p>Three quick steps from curious to confirmed.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><span>1</span><h3>Discover</h3><p>Browse, search and filter events that match your interests.</p></div>
+        <div class="step"><span>2</span><h3>Check details</h3><p>See the date, venue, price, seats left and a live countdown.</p></div>
+        <div class="step"><span>3</span><h3>Register</h3><p>Fill a short form and get an instant confirmation with a booking ID.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== My registrations ===== -->
+    <section class="section container" id="my-registrations">
+      <div class="section-head">
+        <h2>🎟️ My Registrations</h2>
+        <p>Saved in your browser using Local Storage.</p>
+      </div>
+      <div id="regList" class="reg-list"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Hulchul · Built with HTML5, CSS3 &amp; JavaScript</p>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <!-- ===== Event modal (details + registration) ===== -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" data-close aria-label="Close">✕</button>
+
+      <!-- Pane 1: details -->
+      <div class="pane" id="paneDetails">
+        <div class="modal-banner" id="mBanner"></div>
+        <div class="modal-body">
+          <span class="tag" id="mCategory"></span>
+          <h2 id="modalTitle"></h2>
+          <ul class="meta">
+            <li>📅 <span id="mDate"></span></li>
+            <li>📍 <span id="mVenue"></span></li>
+            <li>💰 <span id="mPrice"></span></li>
+            <li>💺 <span id="mSeats"></span></li>
+          </ul>
+          <div class="countdown" id="mCountdown" aria-live="off"></div>
+          <p id="mDesc" class="long-desc"></p>
+          <button class="btn btn-primary btn-block" id="goRegister">Register for this event</button>
+        </div>
+      </div>
+
+      <!-- Pane 2: form -->
+      <div class="pane" id="paneForm" hidden>
+        <div class="modal-body">
+          <button class="link-btn" id="backToDetails">← Back to details</button>
+          <h2>Register</h2>
+          <form id="regForm" novalidate>
+            <div class="field">
+              <label for="fName">Full name</label>
+              <input id="fName" name="name" type="text" placeholder="e.g. Ananya Sharma" autocomplete="name" />
+              <small class="error" id="eName"></small>
+            </div>
+            <div class="field">
+              <label for="fEmail">Email address</label>
+              <input id="fEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email" />
+              <small class="error" id="eEmail"></small>
+            </div>
+            <div class="field">
+              <label for="fPhone">Phone number</label>
+              <input id="fPhone" name="phone" type="tel" placeholder="10-digit mobile number" autocomplete="tel" inputmode="numeric" />
+              <small class="error" id="ePhone"></small>
+            </div>
+            <div class="field">
+              <label for="fEvent">Selected event</label>
+              <select id="fEvent" name="event"></select>
+              <small class="error" id="eEvent"></small>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Confirm registration</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Pane 3: success -->
+      <div class="pane" id="paneSuccess" hidden>
+        <div class="modal-body success">
+          <div class="tick">✓</div>
+          <h2>You're in! 🎉</h2>
+          <p id="successMsg"></p>
+          <p class="booking">Booking ID: <strong id="successId"></strong></p>
+          <button class="btn btn-primary" data-close>Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
